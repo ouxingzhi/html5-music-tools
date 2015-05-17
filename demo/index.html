@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+	<title>html5 audio</title>
+</head>
+<body>
+	<div>status:<span id="sstatus"></span></div>
+	<div>time:<span id="stime"></span></div>
+	<div>lrc:<span id="slrc"></span></div>
+	<button id="play">play</button><br />
+	<button id="pause">pause</button><br />
+	<select id="songlist">
+		<option value="zuoer.mp3">zuoer.mp3</option>
+		<option value="nanfangguniang.mp3">nanfangguniang.mp3</option>
+		<option value="xiaopinguo.mp3">xiaopinguo.mp3</option>
+	<select>
+	<script src="../lib/seajs/sea.js"></script>
+	<script src="../lib/seajs/plugin-text.js"></script>
+	<script type="text/javascript" src="../lib/zepto.min.js"></script>
+	<script type="text/javascript">
+	
+		seajs.use(['../src/audioplay','../src/lrc'],function(AudioPlay,Lrc){
+			$.get('./zuoer.lrc',function(lrc){
+			var l = new Lrc({
+					lrc:lrc
+				});
+				var audioPlay = new AudioPlay();
+				var bplay = $('#play'),
+					bpause = $('#pause'),
+					songlist = $('#songlist'),
+					sstatus = $('#sstatus'),
+					stime = $('#stime'),
+					slrc = $('#slrc');
+				audioPlay.on('all',function(e){
+					sstatus.html(audioPlay.getStatus());
+				});
+				audioPlay.on('timeupdate',function(){
+					stime.html(audioPlay.getCurPos());
+					slrc.html(l.pos(audioPlay.getCurPos()));
+				});
+				
+				bplay.on('click',function(){
+					var song = songlist.val();
+					if(song != audioPlay.getRealSrc()){
+						audioPlay.setSrc(song);
+					}
+					audioPlay.play();
+				});
+				bpause.on('click',function(){
+					audioPlay.pause();
+				});
+				
+			});
+		});
+	</script>
+</body>
+</html>
