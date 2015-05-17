@@ -4,11 +4,21 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
 	<title>html5 audio</title>
+	<style type="text/css">
+		.lrclist{
+			height:6em;
+			overflow:hidden;
+			min-height:1.5em;
+			line-height:1.5em;
+		}
+	</style>
 </head>
 <body>
 	<div>status:<span id="sstatus"></span></div>
 	<div>time:<span id="stime"></span></div>
 	<div>lrc:<span id="slrc"></span></div>
+	<div>lrclist:</div>
+	
 	<button id="play">play</button><br />
 	<button id="pause">pause</button><br />
 	<select id="songlist">
@@ -16,15 +26,18 @@
 		<option value="nanfangguniang.mp3">nanfangguniang.mp3</option>
 		<option value="xiaopinguo.mp3">xiaopinguo.mp3</option>
 	<select>
+	<div class="lrclist">
+	</div>
 	<script src="../lib/seajs/sea.js"></script>
 	<script src="../lib/seajs/plugin-text.js"></script>
 	<script type="text/javascript" src="../lib/zepto.min.js"></script>
 	<script type="text/javascript">
 	
-		seajs.use(['../src/audioplay','../src/lrc'],function(AudioPlay,Lrc){
+		seajs.use(['../src/audioplay','../src/lrcview'],function(AudioPlay,LrcView){
 			$.get('./zuoer.lrc',function(lrc){
-			var l = new Lrc({
-					lrc:lrc
+			var l = new LrcView({
+					lrc:lrc,
+					wraper:$('.lrclist')
 				});
 				var audioPlay = new AudioPlay();
 				var bplay = $('#play'),
@@ -38,7 +51,7 @@
 				});
 				audioPlay.on('timeupdate',function(){
 					stime.html(audioPlay.getCurPos());
-					slrc.html(l.pos(audioPlay.getCurPos()));
+					l.pos(audioPlay.getCurPos());
 				});
 				
 				bplay.on('click',function(){

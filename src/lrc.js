@@ -1,6 +1,6 @@
 define(function(require){
 
-	var Class = require('./class');
+	var Event = require('./event');
 
 	var regline = /[\r\n]+/,
 		regmeta = /^\[(ti|ar|al|by|offset):([^\[\]]*)\]$/,
@@ -36,7 +36,8 @@ define(function(require){
 				for(var ii=0,ll=time.length;ii<ll;ii++){
 					p.push({
 						time:time[ii],
-						line:line
+						line:line,
+						id:(+new Date()) + String(Math.random()).replace('.','')
 					});
 				}
 				
@@ -53,7 +54,7 @@ define(function(require){
 	} 
 
 
-	var Lrc = Class({
+	var Lrc = Event.extend({
 		propertys:function(){
 			this.lrc = '';
 			this.lrcObj;
@@ -68,6 +69,7 @@ define(function(require){
 		},
 		setLrc:function(lrc){
 			this.lrcObj = parseLrc(lrc);
+			this.emit('update',[this.lrcObj]);
 		},
 		getLrc:function(){
 			return this.lrcObj;
@@ -80,7 +82,7 @@ define(function(require){
 				a = lines[i];
 				b = lines[i+1] || O;
 				if(a.time <= time && (b === O || b.time > time)){
-					return a.line;
+					return a;
 				}
 			}
 			return null;
