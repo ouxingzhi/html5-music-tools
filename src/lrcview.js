@@ -14,8 +14,10 @@ define(function(require){
 			$super(options);
 			this._initDom();
 			this._updateLrcDom();
+			this.pos(0);
 			this.on('update',function(){
 				this._updateLrcDom();
+				this.pos(0);
 			})
 		},
 		_setOption:function($super,options){
@@ -54,7 +56,13 @@ define(function(require){
 			var o = $super(time);
 			if(o){
 				var li = this.subbox.find('[data-id="'+o.id+'"]');
-				li.position();
+				if(li.length){
+					this.subbox.css({
+						left:'0px',
+						top:(-li[0].offsetTop+bh-li.height()/2) + 'px'
+					});
+				}
+				
 			}
 			
 		}

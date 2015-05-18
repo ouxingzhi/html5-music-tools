@@ -5,11 +5,16 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
 	<title>html5 audio</title>
 	<style type="text/css">
+		ul,li{ padding:0px; margin:0px;}
 		.lrclist{
 			height:6em;
 			overflow:hidden;
 			min-height:1.5em;
 			line-height:1.5em;
+			border:1px solid #888;
+		}
+		.lrclist ul{ 
+			transition:all 0.5s ease;
 		}
 	</style>
 </head>
@@ -22,6 +27,7 @@
 	<button id="play">play</button><br />
 	<button id="pause">pause</button><br />
 	<select id="songlist">
+		<option value="gongxifacai.wav">gongxifacai.wav</option>
 		<option value="zuoer.mp3">zuoer.mp3</option>
 		<option value="nanfangguniang.mp3">nanfangguniang.mp3</option>
 		<option value="xiaopinguo.mp3">xiaopinguo.mp3</option>
